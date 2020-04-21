@@ -1,0 +1,13 @@
+# Add any directories, files, or patterns you don't want to be tracked by version control
+.gradle
+reports
+local.properties
+.idea
+*.iml
+build
+.DS_Store
+app/*.apk
+app/*.iml
+fastlane/report.xml
+app/*.exec
+captures
