@@ -42,5 +42,9 @@ Create a proof of concept for an App that displays trend articles and allow the 
 - Filter sources to be only for English language
 
 
+**Allocated time:**
+
+- Please return this project zipped in no more than 3 days after received.
+
 
 
