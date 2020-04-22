@@ -1,6 +1,4 @@
-# Android Coding Test
-
-## Articles headlines App
+## Articles Headlines App
 Create a proof of concept for an App that displays trend articles and allow the user to save news for reading later.
 
 ## Requirements
