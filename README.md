@@ -1,11 +1,9 @@
-## Android Coding Test
+# Android Coding Test
 
-**Articles headlines App:**
-
+## Articles headlines App
 Create a proof of concept for an App that displays trend articles and allow the user to save news for reading later.
 
-**Requirements:**
-
+## Requirements
 - App to be built with a tab bar main navigation containing 3 tabs: **Headlines, Sources, Saved.**
 - **Headlines**: screen to display a list of headlines based on the user-selected sources, each row should display (title, description, author and thumbnail picture)
   - Tapping on a row should open the headline URL to read the full article within the app.
@@ -22,9 +20,7 @@ Create a proof of concept for an App that displays trend articles and allow the 
 - Feel free to use any libraries that help to deliver the app
 - it is not expected to have a fancy user interface, well layout structure will be the key element to be evaluated.
 
-
-**Technologies and Methodologies expected:**
-
+## Technologies and Methodologies Expectations
 - Highly modular
 - Use of modern language: Kotlin
 - ConstrainLayout
@@ -33,18 +29,13 @@ Create a proof of concept for an App that displays trend articles and allow the 
 - Reuse of components
 - RxKotlin would be a big bonus
 
-**Points of consideration:**
-
+## Points of consideration
 - Pagination is not required, API will return only the latest 10 articles per source
 - The API doesn’t provide a way to fetch articles from multiple sources in one request, you will have to wrap multiple requests based on the user’s selected sources e.g.:
   - If the user has selected 3 sources you will have to wrap 3 requests and display the 30 results back in the headlines screen
 - Documentation for the API [https://newsapi.org/#documentation](https://newsapi.org/#documentation)
 - Filter sources to be only for English language
 
-
-**Allocated time:**
-
-- Please return this project zipped in no more than 3 days after received.
-
-
-
+## Allocated time
+- Please provide submission no more than 3 days after received.
+- Submissions will only be accepted via GitHub or Bitbucket.
