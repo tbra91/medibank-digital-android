@@ -26,6 +26,7 @@ Create a proof of concept for an App that displays trend articles and allow the 
 - Good use of MVC, MVVM preferable
 - Reuse of components
 - RxKotlin would be a big bonus
+- Android Jetpack Architecture Components (viewModel, LiveData, navigation component, etc) would be a big bomnus
 
 ## Points of consideration
 - Pagination is not required, API will return only the latest 10 articles per source
