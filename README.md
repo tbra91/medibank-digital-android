@@ -30,8 +30,6 @@ Create a proof of concept for an App that displays trend articles and allow the 
 
 ## Points of consideration
 - Pagination is not required, API will return only the latest 10 articles per source
-- The API doesn’t provide a way to fetch articles from multiple sources in one request, you will have to wrap multiple requests based on the user’s selected sources e.g.:
-  - If the user has selected 3 sources you will have to wrap 3 requests and display the 30 results back in the headlines screen
 - Documentation for the API [https://newsapi.org/#documentation](https://newsapi.org/#documentation)
 - Filter sources to be only for English language
 
