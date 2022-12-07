@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_headlines"
+        android:icon="@drawable/ic_baseline_view_headline_24"
+        android:title="@string/headlines" />
+
+    <item
+        android:id="@+id/nav_sources"
+        android:icon="@drawable/ic_baseline_source_24"
+        android:title="@string/sources" />
+
+    <item
+        android:id="@+id/nav_saves"
+        android:icon="@drawable/ic_baseline_save_alt_24"
+        android:title="@string/saves" />
+
+</menu>
