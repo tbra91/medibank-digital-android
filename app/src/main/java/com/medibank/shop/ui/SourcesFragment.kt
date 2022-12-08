@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.kwabenaberko.newsapilib.models.Source
 import com.medibank.shop.adapter.SourceAdapter
 import com.medibank.shop.databinding.FragmentSourcesBinding
 import com.medibank.shop.viewmodel.SourcesViewModel
@@ -20,14 +19,21 @@ class SourcesFragment : Fragment() {
     private val sourcesViewModel: SourcesViewModel by viewModels()
 
     private val adapter: SourceAdapter by lazy {
-        SourceAdapter().apply { submitList(sourcesViewModel.sources.value ?: emptyList()) }
+        SourceAdapter().apply {
+            // Initialize the SourceAdapter to listen to checked change events and update the
+            // database entry
+            onSourceCheckedChangeListener = { _, source, isChecked ->
+                with(sourcesViewModel) { if (isChecked) select(source) else deselect(source) }
+            }
+            setHasStableIds(true)
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSourcesBinding.inflate(inflater, container, false).apply {
-            // Initialize the RecyclerView
+            // Initialize the RecyclerView with the SourcesAdapter
             recyclerView.adapter = adapter
         }
 
@@ -35,7 +41,9 @@ class SourcesFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        sourcesViewModel.sources.observe(viewLifecycleOwner) { sources: List<Source>? ->
+        // Observe the sources list on the SourcesViewModel for changes and submit it to the
+        // SourcesAdapter
+        sourcesViewModel.sources.observe(viewLifecycleOwner) { sources ->
             adapter.submitList(sources)
         }
     }

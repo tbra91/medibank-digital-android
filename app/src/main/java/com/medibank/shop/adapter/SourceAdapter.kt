@@ -6,15 +6,25 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.checkbox.MaterialCheckBox
-import com.kwabenaberko.newsapilib.models.Source
+import com.medibank.shop.data.SourceEntity
 
-class SourceAdapter : ListAdapter<Source, SourceAdapter.SourceViewHolder>(DIFF_CALLBACK) {
+class SourceAdapter : ListAdapter<SourceEntity, SourceAdapter.SourceViewHolder>(DIFF_CALLBACK) {
 
-    class SourceViewHolder(itemView: View) : ViewHolder(itemView) {
-        fun bind(source: Source) {
-            (itemView as MaterialCheckBox).text = source.name
+    inner class SourceViewHolder(itemView: View) : ViewHolder(itemView) {
+        fun bind(source: SourceEntity) {
+            (itemView as MaterialCheckBox).apply {
+                text = source.name
+                isChecked = source.isSelected
+                setOnCheckedChangeListener { _, isChecked ->
+                    source.isSelected = isChecked
+                    onSourceCheckedChangeListener?.invoke(this@SourceAdapter, source, isChecked)
+                }
+            }
         }
     }
+
+    var onSourceCheckedChangeListener: ((adapter: SourceAdapter, source: SourceEntity, isChecked: Boolean) -> Unit)? =
+        null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SourceViewHolder {
         val checkBox = MaterialCheckBox(parent.context)
@@ -26,20 +36,19 @@ class SourceAdapter : ListAdapter<Source, SourceAdapter.SourceViewHolder>(DIFF_C
         holder.bind(source)
     }
 
+    override fun getItemId(position: Int): Long {
+        val source = getItem(position)
+        return source.id.hashCode().toLong()
+    }
+
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Source>() {
-            override fun areItemsTheSame(oldItem: Source, newItem: Source): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SourceEntity>() {
+            override fun areItemsTheSame(oldItem: SourceEntity, newItem: SourceEntity): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Source, newItem: Source): Boolean {
-                return oldItem.id == newItem.id
-                        && oldItem.name == newItem.name
-                        && oldItem.description == newItem.description
-                        && oldItem.url == newItem.url
-                        && oldItem.category == newItem.category
-                        && oldItem.language == newItem.language
-                        && oldItem.country == newItem.country
+            override fun areContentsTheSame(oldItem: SourceEntity, newItem: SourceEntity): Boolean {
+                return oldItem == newItem && oldItem.isSelected == newItem.isSelected
             }
         }
     }
