@@ -18,14 +18,13 @@ class SourcesFragment : Fragment() {
 
     private val sourcesViewModel: SourcesViewModel by viewModels()
 
-    private val adapter: SourceAdapter by lazy {
-        SourceAdapter().apply {
-            // Initialize the SourceAdapter to listen to checked change events and update the
-            // database entry
-            onSourceCheckedChangeListener = { _, source, isChecked ->
-                with(sourcesViewModel) { if (isChecked) select(source) else deselect(source) }
-            }
-            setHasStableIds(true)
+    private val adapter = SourceAdapter().apply {
+        setHasStableIds(true)
+
+        // Initialize the SourceAdapter to listen to checked change events and update the
+        // database entry
+        onSourceCheckedChangeListener = { source, isChecked ->
+            with(sourcesViewModel) { if (isChecked) select(source) else deselect(source) }
         }
     }
 

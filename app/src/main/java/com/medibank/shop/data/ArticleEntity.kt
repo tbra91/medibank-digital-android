@@ -2,7 +2,7 @@ package com.medibank.shop.data
 
 import androidx.room.Entity
 
-@Entity(tableName = "article", primaryKeys = ["author", "title"])
+@Entity(tableName = "article", primaryKeys = ["sourceId", "author", "title"])
 data class ArticleEntity(
     var sourceId: String,
     var author: String,

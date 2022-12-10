@@ -11,11 +11,9 @@ import kotlinx.coroutines.launch
 
 class HeadlinesViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _headlines = MutableLiveData<List<ArticleEntity>>().apply { value = emptyList() }
-    val headlines: LiveData<List<ArticleEntity>>
-        get() = _headlines
-
-    val articleRepository = ArticleRepository(NewsDatabase.getInstance(application).articleDao)
+    private val _articles = MutableLiveData<List<ArticleEntity>>().apply { value = emptyList() }
+    val articles: LiveData<List<ArticleEntity>>
+        get() = _articles
 
     val sources =
         SourceRepository(NewsDatabase.getInstance(application).sourceDao).getAll().asLiveData()
@@ -37,15 +35,11 @@ class HeadlinesViewModel(application: Application) : AndroidViewModel(applicatio
                         article.content
                     )
                 }
-                _headlines.postValue(articles)
+                _articles.postValue(articles)
             }
 
             override fun onFailure(throwable: Throwable?) {
             }
         })
-    }
-
-    fun save(article: ArticleEntity) {
-        viewModelScope.launch { articleRepository.insert(article) }
     }
 }
