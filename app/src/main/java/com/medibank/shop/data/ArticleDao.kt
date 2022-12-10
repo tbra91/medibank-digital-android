@@ -8,6 +8,9 @@ interface ArticleDao {
     @Query("SELECT * FROM article")
     fun getAll(): Flow<List<ArticleEntity>>
 
+    @Query("SELECT EXISTS(SELECT * FROM article WHERE sourceId = :sourceId AND author = :author AND title = :title)")
+    fun exists(sourceId: String, author: String, title: String): Flow<Boolean>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(article: ArticleEntity)
 

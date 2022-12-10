@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">My Beautiful Shop</string>
 
-    <!-- Bottom navigation menu -->
-    <string name="headlines">Headlines</string>
-    <string name="sources">Sources</string>
-    <string name="saves">Saves</string>
+    <!-- Navigation labels -->
+    <string name="label_headlines">Headlines</string>
+    <string name="label_sources">Sources</string>
+    <string name="label_saves">Saves</string>
+    <string name="label_article">Article</string>
+
+    <!-- Article menu -->
+    <string name="menu_save">Save</string>
+    <string name="menu_delete">Delete</string>
+
+    <!-- Article fragment -->
+    <string name="article_saved">Article added to Saves</string>
+    <string name="article_deleted">Article removed from Saves</string>
 </resources>
