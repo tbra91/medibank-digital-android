@@ -4,6 +4,8 @@ import androidx.annotation.WorkerThread
 
 class SourceRepository(private val sourceDao: SourceDao) {
 
+    fun getAll() = sourceDao.getAll()
+
     @WorkerThread
     suspend fun get(id: String) = sourceDao.get(id)
 

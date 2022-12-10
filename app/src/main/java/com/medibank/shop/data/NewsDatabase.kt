@@ -5,9 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [SourceEntity::class], version = 1)
+@Database(entities = [ArticleEntity::class, SourceEntity::class], version = 1)
 abstract class NewsDatabase : RoomDatabase() {
 
+    abstract val articleDao: ArticleDao
     abstract val sourceDao: SourceDao
 
     companion object {

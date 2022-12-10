@@ -8,7 +8,7 @@
         android:id="@+id/nav_headlines"
         android:name="com.medibank.shop.ui.HeadlinesFragment"
         android:label="@string/headlines"
-        tools:layout="@layout/fragment_headlines" />
+        tools:layout="@layout/fragment_articles" />
 
     <fragment
         android:id="@+id/nav_sources"
@@ -20,6 +20,6 @@
         android:id="@+id/nav_saves"
         android:name="com.medibank.shop.ui.SavesFragment"
         android:label="@string/saves"
-        tools:layout="@layout/fragment_saves" />
+        tools:layout="@layout/fragment_articles" />
 
 </navigation>
