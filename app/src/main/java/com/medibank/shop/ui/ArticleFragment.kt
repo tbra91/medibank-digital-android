@@ -36,13 +36,13 @@ class ArticleFragment : Fragment() {
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             when (menuItem.itemId) {
-                R.id.save -> {
+                R.id.menu_save -> {
                     articleViewModel.save()
                     Toast.makeText(requireContext(), R.string.article_saved, Toast.LENGTH_SHORT)
                         .show()
                     return true
                 }
-                R.id.delete -> {
+                R.id.menu_delete -> {
                     articleViewModel.delete()
                     Toast.makeText(requireContext(), R.string.article_deleted, Toast.LENGTH_SHORT)
                         .show()

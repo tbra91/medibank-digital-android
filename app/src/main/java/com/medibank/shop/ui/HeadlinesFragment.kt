@@ -2,7 +2,6 @@ package com.medibank.shop.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -18,6 +17,8 @@ class HeadlinesFragment : ArticlesFragment() {
 
     init {
         adapter.onArticleClickListener = { article ->
+            // Set the article on the ArticleViewModel and navigate to the ArticleFragment to
+            // load the article
             articleViewModel.article = article
             findNavController().navigate(R.id.action_nav_headlines_fragment_to_nav_article_fragment)
         }
@@ -25,9 +26,11 @@ class HeadlinesFragment : ArticlesFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with (headlinesViewModel) {
+            // Submit the articles list to the adapter when a change is observed
             articles.observe(viewLifecycleOwner) { articles ->
                 adapter.submitList(articles)
             }
+            // Fetch articles with the new sources list when a change is observed
             sources.observe(viewLifecycleOwner) { sources ->
                 fetch(sources)
             }

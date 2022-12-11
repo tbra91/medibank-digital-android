@@ -28,7 +28,12 @@ class SourcesViewModel(application: Application) : AndroidViewModel(application)
         newsApiClient.getSources(sourcesRequest, object : NewsApiClient.SourcesCallback {
             override fun onSuccess(response: SourcesResponse?) {
                 viewModelScope.launch {
+                    // Transform each Source in the response to a SourceEntity and post the result
+                    // to the sources LiveData
                     val sources = response?.sources?.map { source ->
+                        // Selected sources exist in the repository, so get the source from the
+                        // repository if it exists and set its selected state, otherwise create a
+                        // new SourceEntity
                         sourceRepository.get(source.id)?.apply {
                             name = source.name
                             description = source.description
@@ -38,6 +43,7 @@ class SourcesViewModel(application: Application) : AndroidViewModel(application)
                             country = source.country
                             isSelected = true
                         }?.also {
+                            // If the source exists in the repository, ensure it's up to date
                             sourceRepository.update(it)
                         } ?: SourceEntity(
                             source.id,
@@ -54,6 +60,7 @@ class SourcesViewModel(application: Application) : AndroidViewModel(application)
             }
 
             override fun onFailure(throwable: Throwable?) {
+                // TODO implement failure handling
             }
         })
     }

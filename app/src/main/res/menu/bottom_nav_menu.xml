@@ -4,16 +4,16 @@
     <item
         android:id="@+id/nav_headlines_graph"
         android:icon="@drawable/ic_baseline_view_headline_24"
-        android:title="@string/label_headlines" />
+        android:title="@string/nav_headlines_label" />
 
     <item
         android:id="@+id/nav_sources_fragment"
         android:icon="@drawable/ic_baseline_source_24"
-        android:title="@string/label_sources" />
+        android:title="@string/nav_sources_label" />
 
     <item
         android:id="@+id/nav_saves_graph"
         android:icon="@drawable/ic_baseline_save_alt_24"
-        android:title="@string/label_saves" />
+        android:title="@string/nav_saves_label" />
 
 </menu>

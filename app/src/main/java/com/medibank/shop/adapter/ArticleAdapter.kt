@@ -29,12 +29,10 @@ class ArticleAdapter : ListAdapter<ArticleEntity, ArticleAdapter.ArticleViewHold
 
         fun bind(article: ArticleEntity) {
             with(binding) {
-                // Set text on TextViews
                 titleTextView.text = article.title
                 descriptionTextView.text = article.description
                 authorTextView.text = article.author
 
-                // Load image into ImageView
                 Glide.with(root).load(article.urlToImage).centerCrop().into(imageView)
 
                 root.setOnClickListener { onArticleClickListener?.invoke(article) }

@@ -2,10 +2,10 @@
     <string name="app_name">My Beautiful Shop</string>
 
     <!-- Navigation labels -->
-    <string name="label_headlines">Headlines</string>
-    <string name="label_sources">Sources</string>
-    <string name="label_saves">Saves</string>
-    <string name="label_article">Article</string>
+    <string name="nav_headlines_label">Headlines</string>
+    <string name="nav_sources_label">Sources</string>
+    <string name="nav_saves_label">Saves</string>
+    <string name="nav_article_label">Article</string>
 
     <!-- Article menu -->
     <string name="menu_save">Save</string>

@@ -20,9 +20,7 @@ class SourcesFragment : Fragment() {
 
     private val adapter = SourceAdapter().apply {
         setHasStableIds(true)
-
-        // Initialize the SourceAdapter to listen to checked change events and update the
-        // database entry
+        // Initialize the adapter to listen to checked change events and update the selection state
         onSourceCheckedChangeListener = { source, isChecked ->
             with(sourcesViewModel) { if (isChecked) select(source) else deselect(source) }
         }
@@ -32,7 +30,7 @@ class SourcesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSourcesBinding.inflate(inflater, container, false).apply {
-            // Initialize the RecyclerView with the SourcesAdapter
+            // Initialize the RecyclerView with the adapter
             recyclerView.adapter = adapter
         }
 
@@ -40,8 +38,7 @@ class SourcesFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Observe the sources list on the SourcesViewModel for changes and submit it to the
-        // SourcesAdapter
+        // Submit the sources list to the adapter when a change is observed
         sourcesViewModel.sources.observe(viewLifecycleOwner) { sources ->
             adapter.submitList(sources)
         }
@@ -49,6 +46,7 @@ class SourcesFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        // Fetch the sources to ensure they are up to date
         sourcesViewModel.fetch()
     }
 

@@ -20,7 +20,7 @@ open class ArticlesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentArticlesBinding.inflate(inflater, container, false).apply {
-            // Initialize the RecyclerView with the ArticleAdapter
+            // Initialize the RecyclerView with the adapter
             recyclerView.adapter = adapter
         }
 

@@ -35,6 +35,7 @@ class SourceAdapter : ListAdapter<SourceEntity, SourceAdapter.SourceViewHolder>(
             (itemView as MaterialCheckBox).apply {
                 text = source.name
                 isChecked = source.isSelected
+
                 setOnCheckedChangeListener { _, isChecked ->
                     source.isSelected = isChecked
                     onSourceCheckedChangeListener?.invoke(source, isChecked)

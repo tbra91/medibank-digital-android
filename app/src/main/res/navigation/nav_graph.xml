@@ -12,7 +12,7 @@
         <fragment
             android:id="@+id/nav_headlines_fragment"
             android:name="com.medibank.shop.ui.HeadlinesFragment"
-            android:label="@string/label_headlines"
+            android:label="@string/nav_headlines_label"
             tools:layout="@layout/fragment_articles" >
 
             <action
@@ -28,14 +28,14 @@
         <fragment
             android:id="@+id/nav_article_fragment"
             android:name="com.medibank.shop.ui.ArticleFragment"
-            android:label="@string/label_article" />
+            android:label="@string/nav_article_label" />
 
     </navigation>
 
     <fragment
         android:id="@+id/nav_sources_fragment"
         android:name="com.medibank.shop.ui.SourcesFragment"
-        android:label="@string/label_sources"
+        android:label="@string/nav_sources_label"
         tools:layout="@layout/fragment_sources" />
 
     <navigation
@@ -45,7 +45,7 @@
         <fragment
             android:id="@+id/nav_saves_fragment"
             android:name="com.medibank.shop.ui.SavesFragment"
-            android:label="@string/label_saves"
+            android:label="@string/nav_saves_label"
             tools:layout="@layout/fragment_articles">
 
             <action
@@ -61,7 +61,7 @@
         <fragment
             android:id="@+id/nav_article_fragment"
             android:name="com.medibank.shop.ui.ArticleFragment"
-            android:label="@string/label_article" />
+            android:label="@string/nav_article_label" />
 
     </navigation>
 
