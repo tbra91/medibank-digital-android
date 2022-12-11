@@ -19,7 +19,7 @@ class SavesFragment : ArticlesFragment() {
     init {
         adapter.onArticleClickListener = { article ->
             articleViewModel.article = article
-            findNavController().navigate(R.id.action_nav_saves_to_nav_article)
+            findNavController().navigate(R.id.action_nav_saves_fragment_to_nav_article_fragment)
         }
     }
 

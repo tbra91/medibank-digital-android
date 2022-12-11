@@ -3,45 +3,66 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@+id/nav_headlines">
+    app:startDestination="@+id/nav_headlines_graph">
+
+    <navigation
+        android:id="@+id/nav_headlines_graph"
+        app:startDestination="@id/nav_headlines_fragment">
+
+        <fragment
+            android:id="@+id/nav_headlines_fragment"
+            android:name="com.medibank.shop.ui.HeadlinesFragment"
+            android:label="@string/label_headlines"
+            tools:layout="@layout/fragment_articles" >
+
+            <action
+                android:id="@+id/action_nav_headlines_fragment_to_nav_article_fragment"
+                app:destination="@id/nav_article_fragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        </fragment>
+
+        <fragment
+            android:id="@+id/nav_article_fragment"
+            android:name="com.medibank.shop.ui.ArticleFragment"
+            android:label="@string/label_article" />
+
+    </navigation>
 
     <fragment
-        android:id="@+id/nav_headlines"
-        android:name="com.medibank.shop.ui.HeadlinesFragment"
-        android:label="@string/label_headlines"
-        tools:layout="@layout/fragment_articles" >
-        <action
-            android:id="@+id/action_nav_headlines_to_nav_article"
-            app:destination="@id/nav_article"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/nav_sources"
+        android:id="@+id/nav_sources_fragment"
         android:name="com.medibank.shop.ui.SourcesFragment"
         android:label="@string/label_sources"
         tools:layout="@layout/fragment_sources" />
 
-    <fragment
-        android:id="@+id/nav_saves"
-        android:name="com.medibank.shop.ui.SavesFragment"
-        android:label="@string/label_saves"
-        tools:layout="@layout/fragment_articles">
-        <action
-            android:id="@+id/action_nav_saves_to_nav_article"
-            app:destination="@id/nav_article"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
+    <navigation
+        android:id="@+id/nav_saves_graph"
+        app:startDestination="@id/nav_saves_fragment">
 
-    <fragment
-        android:id="@+id/nav_article"
-        android:name="com.medibank.shop.ui.ArticleFragment"
-        android:label="@string/label_article" />
+        <fragment
+            android:id="@+id/nav_saves_fragment"
+            android:name="com.medibank.shop.ui.SavesFragment"
+            android:label="@string/label_saves"
+            tools:layout="@layout/fragment_articles">
+
+            <action
+                android:id="@+id/action_nav_saves_fragment_to_nav_article_fragment"
+                app:destination="@id/nav_article_fragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        </fragment>
+
+        <fragment
+            android:id="@+id/nav_article_fragment"
+            android:name="com.medibank.shop.ui.ArticleFragment"
+            android:label="@string/label_article" />
+
+    </navigation>
 
 </navigation>

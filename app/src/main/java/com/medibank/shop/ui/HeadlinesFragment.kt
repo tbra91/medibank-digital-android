@@ -19,7 +19,7 @@ class HeadlinesFragment : ArticlesFragment() {
     init {
         adapter.onArticleClickListener = { article ->
             articleViewModel.article = article
-            findNavController().navigate(R.id.action_nav_headlines_to_nav_article)
+            findNavController().navigate(R.id.action_nav_headlines_fragment_to_nav_article_fragment)
         }
     }
 
