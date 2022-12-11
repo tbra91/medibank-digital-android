@@ -24,33 +24,39 @@ class HeadlinesViewModel(application: Application) : AndroidViewModel(applicatio
         SourceRepository(NewsDatabase.getInstance(application).sourceDao).getAll().asLiveData()
     
     fun fetch(sources: List<SourceEntity>) {
-        // Build the request using the specified sources and fetch the top headlines from the API
-        val newsApiClient = NewsApiClient(NEWS_API_KEY)
-        val topHeadlinesRequest =
-            TopHeadlinesRequest.Builder().sources(sources.joinToString(", ")).build()
-        newsApiClient.getTopHeadlines(topHeadlinesRequest,
-            object : NewsApiClient.ArticlesResponseCallback {
-                override fun onSuccess(response: ArticleResponse?) {
-                    // Transform each Article in the response to an ArticleEntity and post the
-                    // result to the articles LiveData
-                    val articles = response?.articles?.map { article ->
-                        ArticleEntity(
-                            article.source.id,
-                            article.author,
-                            article.title,
-                            article.description,
-                            article.url,
-                            article.urlToImage,
-                            article.publishedAt,
-                            article.content
-                        )
+        if (sources.isEmpty()) {
+            // Just post an empty list to the articles LiveData if the sources list is empty
+            _articles.postValue(emptyList())
+        } else {
+            // Build the request using the specified sources and fetch the top headlines from the
+            // API
+            val newsApiClient = NewsApiClient(NEWS_API_KEY)
+            val sourceIds = sources.joinToString(",") { it.id }
+            val topHeadlinesRequest = TopHeadlinesRequest.Builder().sources(sourceIds).build()
+            newsApiClient.getTopHeadlines(topHeadlinesRequest,
+                object : NewsApiClient.ArticlesResponseCallback {
+                    override fun onSuccess(response: ArticleResponse?) {
+                        // Transform each Article in the response to an ArticleEntity and post the
+                        // result to the articles LiveData
+                        val articles = response?.articles?.map { article ->
+                            ArticleEntity(
+                                article.source.id,
+                                article.author,
+                                article.title,
+                                article.description,
+                                article.url,
+                                article.urlToImage,
+                                article.publishedAt,
+                                article.content
+                            )
+                        }
+                        _articles.postValue(articles)
                     }
-                    _articles.postValue(articles)
-                }
 
-                override fun onFailure(throwable: Throwable?) {
-                    // TODO implement failure handling
-                }
-            })
+                    override fun onFailure(throwable: Throwable?) {
+                        // TODO implement failure handling
+                    }
+                })
+        }
     }
 }

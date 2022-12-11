@@ -12,7 +12,8 @@ import com.medibank.shop.data.SourceEntity
 
 class SourceAdapter : ListAdapter<SourceEntity, SourceAdapter.SourceViewHolder>(DIFF_CALLBACK) {
 
-    var onSourceCheckedChangeListener: ((source: SourceEntity, isChecked: Boolean) -> Unit)? = null
+    var onSourceSelectedChangedListener: ((source: SourceEntity, isSelected: Boolean) -> Unit)? =
+        null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SourceViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_source_item, parent, false)
@@ -22,6 +23,10 @@ class SourceAdapter : ListAdapter<SourceEntity, SourceAdapter.SourceViewHolder>(
     override fun onBindViewHolder(holder: SourceViewHolder, position: Int) {
         val source = getItem(position)
         holder.bind(source)
+    }
+
+    override fun onViewRecycled(holder: SourceViewHolder) {
+        (holder.itemView as MaterialCheckBox).clearOnCheckedStateChangedListeners()
     }
 
     override fun getItemId(position: Int): Long {
@@ -36,9 +41,15 @@ class SourceAdapter : ListAdapter<SourceEntity, SourceAdapter.SourceViewHolder>(
                 text = source.name
                 isChecked = source.isSelected
 
-                setOnCheckedChangeListener { _, isChecked ->
-                    source.isSelected = isChecked
-                    onSourceCheckedChangeListener?.invoke(source, isChecked)
+                addOnCheckedStateChangedListener { _, state ->
+                    when (state) {
+                        MaterialCheckBox.STATE_CHECKED -> {
+                            onSourceSelectedChangedListener?.invoke(source, true)
+                        }
+                        MaterialCheckBox.STATE_UNCHECKED -> {
+                            onSourceSelectedChangedListener?.invoke(source, false)
+                        }
+                    }
                 }
             }
         }

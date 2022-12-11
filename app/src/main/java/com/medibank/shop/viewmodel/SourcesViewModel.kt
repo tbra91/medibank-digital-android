@@ -12,6 +12,7 @@ import com.medibank.shop.api.NEWS_API_KEY
 import com.medibank.shop.data.NewsDatabase
 import com.medibank.shop.data.SourceEntity
 import com.medibank.shop.data.SourceRepository
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class SourcesViewModel(application: Application) : AndroidViewModel(application) {
@@ -31,21 +32,7 @@ class SourcesViewModel(application: Application) : AndroidViewModel(application)
                     // Transform each Source in the response to a SourceEntity and post the result
                     // to the sources LiveData
                     val sources = response?.sources?.map { source ->
-                        // Selected sources exist in the repository, so get the source from the
-                        // repository if it exists and set its selected state, otherwise create a
-                        // new SourceEntity
-                        sourceRepository.get(source.id)?.apply {
-                            name = source.name
-                            description = source.description
-                            url = source.url
-                            category = source.category
-                            language = source.language
-                            country = source.country
-                            isSelected = true
-                        }?.also {
-                            // If the source exists in the repository, ensure it's up to date
-                            sourceRepository.update(it)
-                        } ?: SourceEntity(
+                        SourceEntity(
                             source.id,
                             source.name,
                             source.description,
@@ -53,7 +40,10 @@ class SourcesViewModel(application: Application) : AndroidViewModel(application)
                             source.category,
                             source.language,
                             source.country
-                        )
+                        ).apply {
+                            // Set the isSelected property if the source exists in the repository
+                            isSelected = sourceRepository.exists(this).first()
+                        }
                     } ?: emptyList()
                     _sources.postValue(sources)
                 }
@@ -66,10 +56,12 @@ class SourcesViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun select(source: SourceEntity) {
+        source.isSelected = true
         viewModelScope.launch { sourceRepository.insert(source) }
     }
 
     fun deselect(source: SourceEntity) {
+        source.isSelected = false
         viewModelScope.launch { sourceRepository.delete(source) }
     }
 }

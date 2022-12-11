@@ -7,7 +7,7 @@ class SourceRepository(private val sourceDao: SourceDao) {
     fun getAll() = sourceDao.getAll()
 
     @WorkerThread
-    suspend fun get(id: String) = sourceDao.get(id)
+    fun exists(source: SourceEntity) = sourceDao.exists(source.id)
 
     @WorkerThread
     suspend fun insert(source: SourceEntity) {
@@ -17,10 +17,5 @@ class SourceRepository(private val sourceDao: SourceDao) {
     @WorkerThread
     suspend fun delete(source: SourceEntity) {
         sourceDao.delete(source)
-    }
-
-    @WorkerThread
-    suspend fun update(source: SourceEntity) {
-        sourceDao.update(source)
     }
 }

@@ -8,15 +8,12 @@ interface SourceDao {
     @Query("SELECT * FROM source")
     fun getAll(): Flow<List<SourceEntity>>
 
-    @Query("SELECT * FROM source WHERE id = :id")
-    suspend fun get(id: String): SourceEntity?
+    @Query("SELECT EXISTS(SELECT * FROM source WHERE id = :id)")
+    fun exists(id: String): Flow<Boolean>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(source: SourceEntity)
 
     @Delete
     suspend fun delete(source: SourceEntity)
-
-    @Update
-    suspend fun update(source: SourceEntity)
 }

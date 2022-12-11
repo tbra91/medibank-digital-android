@@ -45,7 +45,7 @@ class ArticleAdapter : ListAdapter<ArticleEntity, ArticleAdapter.ArticleViewHold
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ArticleEntity>() {
 
             override fun areItemsTheSame(oldItem: ArticleEntity, newItem: ArticleEntity): Boolean {
-                return oldItem.sourceId == newItem.sourceId && oldItem.author == newItem.author && oldItem.title == newItem.title
+                return oldItem.url == newItem.url
             }
 
             override fun areContentsTheSame(

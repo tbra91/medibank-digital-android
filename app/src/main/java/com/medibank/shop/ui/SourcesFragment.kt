@@ -20,9 +20,10 @@ class SourcesFragment : Fragment() {
 
     private val adapter = SourceAdapter().apply {
         setHasStableIds(true)
-        // Initialize the adapter to listen to checked change events and update the selection state
-        onSourceCheckedChangeListener = { source, isChecked ->
-            with(sourcesViewModel) { if (isChecked) select(source) else deselect(source) }
+        // Initialize the adapter to listen to selected changed events and update the selection
+        // state
+        onSourceSelectedChangedListener = { source, isSelected ->
+            with(sourcesViewModel) { if (isSelected) select(source) else deselect(source) }
         }
     }
 
