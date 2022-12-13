@@ -1,13 +1,21 @@
 package com.medibank.shop.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import com.medibank.shop.data.ArticleRepository
-import com.medibank.shop.data.NewsDatabase
 
-class SavesViewModel(application: Application) : AndroidViewModel(application) {
+class SavesViewModel(articleRepository: ArticleRepository) : ViewModel() {
 
-    val articles =
-        ArticleRepository(NewsDatabase.getInstance(application).articleDao).getAll().asLiveData()
+    val articles = articleRepository.getAll().asLiveData()
+}
+
+class SavesViewModelFactory(private val articleRepository: ArticleRepository) :
+    ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(SavesViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST") return SavesViewModel(articleRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }

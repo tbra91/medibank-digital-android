@@ -1,27 +1,21 @@
 package com.medibank.shop.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.kwabenaberko.newsapilib.NewsApiClient
 import com.kwabenaberko.newsapilib.models.request.TopHeadlinesRequest
 import com.kwabenaberko.newsapilib.models.response.ArticleResponse
 import com.medibank.shop.api.NEWS_API_KEY
 import com.medibank.shop.data.ArticleEntity
-import com.medibank.shop.data.NewsDatabase
 import com.medibank.shop.data.SourceEntity
 import com.medibank.shop.data.SourceRepository
 
-class HeadlinesViewModel(application: Application) : AndroidViewModel(application) {
+class HeadlinesViewModel(sourceRepository: SourceRepository) : ViewModel() {
 
     private val _articles = MutableLiveData<List<ArticleEntity>>().apply { value = emptyList() }
     val articles: LiveData<List<ArticleEntity>>
         get() = _articles
 
-    val sources =
-        SourceRepository(NewsDatabase.getInstance(application).sourceDao).getAll().asLiveData()
+    val sources = sourceRepository.getAll().asLiveData()
 
     /**
      * Retrieves the headline [ArticleEntity] list from News API and posts the results to
@@ -64,5 +58,15 @@ class HeadlinesViewModel(application: Application) : AndroidViewModel(applicatio
                     }
                 })
         }
+    }
+}
+
+class HeadlinesViewModelFactory(private val sourceRepository: SourceRepository) :
+    ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(HeadlinesViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST") return HeadlinesViewModel(sourceRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

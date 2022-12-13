@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.medibank.shop.adapter.SourceAdapter
+import com.medibank.shop.data.NewsDatabase
+import com.medibank.shop.data.SourceRepository
 import com.medibank.shop.databinding.FragmentSourcesBinding
 import com.medibank.shop.viewmodel.SourcesViewModel
+import com.medibank.shop.viewmodel.SourcesViewModelFactory
 
 class SourcesFragment : Fragment() {
 
@@ -16,7 +19,13 @@ class SourcesFragment : Fragment() {
     private val binding: FragmentSourcesBinding
         get() = _binding!!
 
-    private val sourcesViewModel: SourcesViewModel by viewModels()
+    private val sourceRepository: SourceRepository by lazy {
+        SourceRepository(NewsDatabase.getInstance(requireContext()).sourceDao)
+    }
+
+    private val sourcesViewModel: SourcesViewModel by viewModels {
+        SourcesViewModelFactory(sourceRepository)
+    }
 
     private val adapter = SourceAdapter().apply {
         setHasStableIds(true)

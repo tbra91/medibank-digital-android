@@ -6,14 +6,28 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.medibank.shop.R
-import com.medibank.shop.viewmodel.ArticleViewModel
-import com.medibank.shop.viewmodel.HeadlinesViewModel
+import com.medibank.shop.data.ArticleRepository
+import com.medibank.shop.data.NewsDatabase
+import com.medibank.shop.data.SourceRepository
+import com.medibank.shop.viewmodel.*
 
 class HeadlinesFragment : ArticlesFragment() {
 
-    private val headlinesViewModel: HeadlinesViewModel by viewModels()
+    private val articleRepository: ArticleRepository by lazy {
+        ArticleRepository(NewsDatabase.getInstance(requireContext()).articleDao)
+    }
 
-    private val articleViewModel: ArticleViewModel by navGraphViewModels(R.id.nav_graph)
+    private val sourceRepository: SourceRepository by lazy {
+        SourceRepository(NewsDatabase.getInstance(requireContext()).sourceDao)
+    }
+
+    private val headlinesViewModel: HeadlinesViewModel by viewModels {
+        HeadlinesViewModelFactory(sourceRepository)
+    }
+
+    private val articleViewModel: ArticleViewModel by navGraphViewModels(R.id.nav_graph) {
+        ArticleViewModelFactory(articleRepository)
+    }
 
     init {
         adapter.onArticleClickListener = { article ->

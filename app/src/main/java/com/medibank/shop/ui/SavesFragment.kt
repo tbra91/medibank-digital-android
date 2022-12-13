@@ -6,14 +6,26 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.medibank.shop.R
+import com.medibank.shop.data.ArticleRepository
+import com.medibank.shop.data.NewsDatabase
 import com.medibank.shop.viewmodel.ArticleViewModel
+import com.medibank.shop.viewmodel.ArticleViewModelFactory
 import com.medibank.shop.viewmodel.SavesViewModel
+import com.medibank.shop.viewmodel.SavesViewModelFactory
 
 class SavesFragment : ArticlesFragment() {
 
-    private val savesViewModel: SavesViewModel by viewModels()
+    private val articleRepository: ArticleRepository by lazy {
+        ArticleRepository(NewsDatabase.getInstance(requireContext()).articleDao)
+    }
 
-    private val articleViewModel: ArticleViewModel by navGraphViewModels(R.id.nav_graph)
+    private val savesViewModel: SavesViewModel by viewModels {
+        SavesViewModelFactory(articleRepository)
+    }
+
+    private val articleViewModel: ArticleViewModel by navGraphViewModels(R.id.nav_graph) {
+        ArticleViewModelFactory(articleRepository)
+    }
 
     init {
         // Initialize the adapter

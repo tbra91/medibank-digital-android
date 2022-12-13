@@ -9,11 +9,20 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.navGraphViewModels
 import com.medibank.shop.R
+import com.medibank.shop.data.ArticleRepository
+import com.medibank.shop.data.NewsDatabase
 import com.medibank.shop.viewmodel.ArticleViewModel
+import com.medibank.shop.viewmodel.ArticleViewModelFactory
 
 class ArticleFragment : Fragment() {
 
-    private val articleViewModel: ArticleViewModel by navGraphViewModels(R.id.nav_graph)
+    private val articleRepository: ArticleRepository by lazy {
+        ArticleRepository(NewsDatabase.getInstance(requireContext()).articleDao)
+    }
+
+    private val articleViewModel: ArticleViewModel by navGraphViewModels(R.id.nav_graph) {
+        ArticleViewModelFactory(articleRepository)
+    }
 
     private var isSaved = false
         set(value) {

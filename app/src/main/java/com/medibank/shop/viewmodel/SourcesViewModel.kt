@@ -1,23 +1,16 @@
 package com.medibank.shop.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.kwabenaberko.newsapilib.NewsApiClient
 import com.kwabenaberko.newsapilib.models.request.SourcesRequest
 import com.kwabenaberko.newsapilib.models.response.SourcesResponse
 import com.medibank.shop.api.NEWS_API_KEY
-import com.medibank.shop.data.NewsDatabase
 import com.medibank.shop.data.SourceEntity
 import com.medibank.shop.data.SourceRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class SourcesViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val sourceRepository = SourceRepository(NewsDatabase.getInstance(application).sourceDao)
+class SourcesViewModel(private val sourceRepository: SourceRepository) : ViewModel() {
 
     private val _sources = MutableLiveData<List<SourceEntity>>()
     val sources: LiveData<List<SourceEntity>>
@@ -57,8 +50,7 @@ class SourcesViewModel(application: Application) : AndroidViewModel(application)
     }
 
     /**
-     * Sets the selected state of the [SourceEntity] to true and inserts it into the
-     * [SourceRepository].
+     * Sets the selected state of the [source] to true and inserts it into the [sourceRepository].
      *
      * @param source the [SourceEntity] to be selected
      */
@@ -68,13 +60,23 @@ class SourcesViewModel(application: Application) : AndroidViewModel(application)
     }
 
     /**
-     * Sets the selected state of the [SourceEntity] to false and removes it from the
-     * [SourceRepository].
+     * Sets the selected state of the [source] to false and removes it from the
+     * [sourceRepository].
      *
      * @param source the [SourceEntity] to be deselected
      */
     fun deselect(source: SourceEntity) {
         source.isSelected = false
         viewModelScope.launch { sourceRepository.delete(source) }
+    }
+}
+
+class SourcesViewModelFactory(private val sourceRepository: SourceRepository) :
+    ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(SourcesViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST") return SourcesViewModel(sourceRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
