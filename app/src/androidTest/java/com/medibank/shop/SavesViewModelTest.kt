@@ -5,14 +5,15 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.medibank.shop.data.ArticleEntity
 import com.medibank.shop.data.ArticleRepository
 import com.medibank.shop.data.NewsDatabase
-import com.medibank.shop.viewmodel.ArticleViewModel
+import com.medibank.shop.viewmodel.SavesViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.*
 import org.junit.*
 
 @ExperimentalCoroutinesApi
-class ArticleViewModelTest {
+class SavesViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -23,18 +24,18 @@ class ArticleViewModelTest {
         ArticleRepository(NewsDatabase.getInstance(context).articleDao)
     }
 
-    private lateinit var articleViewModel: ArticleViewModel
+    private lateinit var savesViewModel: SavesViewModel
 
     @Before
     fun setUp() {
         Dispatchers.setMain(StandardTestDispatcher())
-        articleViewModel = ArticleViewModel(articleRepository)
+        savesViewModel = SavesViewModel(articleRepository)
     }
 
     @Test
-    fun saveAndDelete() = runTest {
-        // Initialize the article on the articleViewModel
-        articleViewModel.article = ArticleEntity(
+    fun containsArticle() = runTest {
+        // Initialize the article
+        val article = ArticleEntity(
             null,
             null,
             null,
@@ -46,19 +47,17 @@ class ArticleViewModelTest {
         )
 
         // Observe the LiveData so it emits data
-        val isSaved = articleViewModel.isSaved()!!.apply {
+        val articles = savesViewModel.articles.apply {
             observeForever {}
         }
 
-        // Test save
-        articleViewModel.save()
+        launch {articleRepository.insert(article) }
         advanceUntilIdle()
-        Assert.assertTrue(isSaved.value!!)
+        Assert.assertTrue(articles.value!!.contains(article))
 
-        // Test delete
-        articleViewModel.delete()
+        launch {articleRepository.delete(article) }
         advanceUntilIdle()
-        Assert.assertFalse(isSaved.value!!)
+        Assert.assertFalse(articles.value!!.contains(article))
     }
 
     @After
