@@ -1,8 +1,10 @@
 package com.medibank.shop
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.core.app.ApplicationProvider
+import androidx.test.platform.app.InstrumentationRegistry
 import com.medibank.shop.data.ArticleEntity
+import com.medibank.shop.data.ArticleRepository
+import com.medibank.shop.data.NewsDatabase
 import com.medibank.shop.viewmodel.ArticleViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,12 +17,17 @@ class ArticleViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    private val articleRepository: ArticleRepository by lazy {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        ArticleRepository(NewsDatabase.getInstance(context).articleDao)
+    }
+
     private lateinit var articleViewModel: ArticleViewModel
 
     @Before
     fun setUp() {
         Dispatchers.setMain(StandardTestDispatcher())
-        articleViewModel = ArticleViewModel(ApplicationProvider.getApplicationContext())
+        articleViewModel = ArticleViewModel(articleRepository)
     }
 
     @Test
