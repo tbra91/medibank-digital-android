@@ -22,7 +22,13 @@ class HeadlinesViewModel(application: Application) : AndroidViewModel(applicatio
 
     val sources =
         SourceRepository(NewsDatabase.getInstance(application).sourceDao).getAll().asLiveData()
-    
+
+    /**
+     * Retrieves the headline [ArticleEntity] list from News API and posts the results to
+     * [articles].
+     *
+     * @param sources the [SourceEntity] list to retrieve from
+     */
     fun fetch(sources: List<SourceEntity>) {
         if (sources.isEmpty()) {
             // Just post an empty list to the articles LiveData if the sources list is empty

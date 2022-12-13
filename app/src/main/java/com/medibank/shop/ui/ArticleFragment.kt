@@ -37,12 +37,14 @@ class ArticleFragment : Fragment() {
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             when (menuItem.itemId) {
                 R.id.menu_save -> {
+                    // Save the article and display a Toast to the user
                     articleViewModel.save()
                     Toast.makeText(requireContext(), R.string.article_saved, Toast.LENGTH_SHORT)
                         .show()
                     return true
                 }
                 R.id.menu_delete -> {
+                    // Delete the article and display a Toast to the user
                     articleViewModel.delete()
                     Toast.makeText(requireContext(), R.string.article_deleted, Toast.LENGTH_SHORT)
                         .show()
@@ -58,12 +60,14 @@ class ArticleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         return WebView(requireContext()).apply {
+            // Initialize the WebView
             webViewClient = WebViewClient()
             articleViewModel.article?.let { article -> loadUrl(article.url) }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // Update the saved state when a change is observed
         articleViewModel.isSaved()?.observe(viewLifecycleOwner) { isSaved = it }
     }
 

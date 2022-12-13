@@ -16,7 +16,8 @@ class SourceAdapter : ListAdapter<SourceEntity, SourceAdapter.SourceViewHolder>(
         null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SourceViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.view_source_item, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.view_source_item, parent, false)
         return SourceViewHolder(view)
     }
 
@@ -38,10 +39,12 @@ class SourceAdapter : ListAdapter<SourceEntity, SourceAdapter.SourceViewHolder>(
 
         fun bind(source: SourceEntity) {
             (itemView as MaterialCheckBox).apply {
+                // Set the text and checked state of the CheckBox
                 text = source.name
                 isChecked = source.isSelected
 
                 addOnCheckedStateChangedListener { _, state ->
+                    // Invoke the listener depending on the checked state of the CheckBox
                     when (state) {
                         MaterialCheckBox.STATE_CHECKED -> {
                             onSourceSelectedChangedListener?.invoke(source, true)

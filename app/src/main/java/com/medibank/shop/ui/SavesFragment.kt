@@ -16,6 +16,7 @@ class SavesFragment : ArticlesFragment() {
     private val articleViewModel: ArticleViewModel by navGraphViewModels(R.id.nav_graph)
 
     init {
+        // Initialize the adapter
         adapter.onArticleClickListener = { article ->
             articleViewModel.article = article
             findNavController().navigate(R.id.action_nav_saves_fragment_to_nav_article_fragment)
@@ -23,6 +24,7 @@ class SavesFragment : ArticlesFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // Submit the articles list to the adapter when a change is observed
         savesViewModel.articles.observe(viewLifecycleOwner) { articles ->
             adapter.submitList(articles)
         }

@@ -23,6 +23,7 @@ class SourcesViewModel(application: Application) : AndroidViewModel(application)
     val sources: LiveData<List<SourceEntity>>
         get() = _sources
 
+    /** Retrieves the [SourceEntity] list from News API and posts the results to [sources]. */
     fun fetch() {
         val newsApiClient = NewsApiClient(NEWS_API_KEY)
         val sourcesRequest = SourcesRequest.Builder().language("en").build()
@@ -55,11 +56,23 @@ class SourcesViewModel(application: Application) : AndroidViewModel(application)
         })
     }
 
+    /**
+     * Sets the selected state of the [SourceEntity] to true and inserts it into the
+     * [SourceRepository].
+     *
+     * @param source the [SourceEntity] to be selected
+     */
     fun select(source: SourceEntity) {
         source.isSelected = true
         viewModelScope.launch { sourceRepository.insert(source) }
     }
 
+    /**
+     * Sets the selected state of the [SourceEntity] to false and removes it from the
+     * [SourceRepository].
+     *
+     * @param source the [SourceEntity] to be deselected
+     */
     fun deselect(source: SourceEntity) {
         source.isSelected = false
         viewModelScope.launch { sourceRepository.delete(source) }

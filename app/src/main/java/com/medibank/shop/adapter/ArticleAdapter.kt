@@ -29,12 +29,15 @@ class ArticleAdapter : ListAdapter<ArticleEntity, ArticleAdapter.ArticleViewHold
 
         fun bind(article: ArticleEntity) {
             with(binding) {
+                // Set the text on the TextViews
                 titleTextView.text = article.title
                 descriptionTextView.text = article.description
                 authorTextView.text = article.author
 
+                // Load the image into the ImageView
                 Glide.with(root).load(article.urlToImage).centerCrop().into(imageView)
 
+                // Set the root View's OnClickListener to invoke adapter's listener
                 root.setOnClickListener { onArticleClickListener?.invoke(article) }
             }
         }
@@ -45,6 +48,7 @@ class ArticleAdapter : ListAdapter<ArticleEntity, ArticleAdapter.ArticleViewHold
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ArticleEntity>() {
 
             override fun areItemsTheSame(oldItem: ArticleEntity, newItem: ArticleEntity): Boolean {
+                // An ArticleEntity doesn't have an ID so just use its URL as an identifier
                 return oldItem.url == newItem.url
             }
 
